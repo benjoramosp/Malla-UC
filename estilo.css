@@ -1,0 +1,174 @@
+/* === RESET GENERAL === */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* === ESTILO GENERAL === */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2rem;
+  color: #222;
+}
+
+/* === CONTENEDOR DE LA LÍNEA DE TIEMPO === */
+.linea-tiempo {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+}
+
+/* === CADA SEMESTRE === */
+.semestre {
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  min-height: 350px;
+  transition: transform 0.3s ease;
+}
+
+.semestre:hover {
+  transform: scale(1.01);
+}
+
+/* === FONDOS DE SEMESTRES SEGÚN NÚMERO === */
+.semestre-1, .semestre-2, .semestre-3, .semestre-4 {
+  background-color: #E8EDEB;
+}
+
+.semestre-5, .semestre-6, .semestre-7, .semestre-8,
+.semestre-9, .semestre-10 {
+  background-color: #EEF7FD;
+}
+
+.semestre-11, .semestre-12, .semestre-13, .semestre-14 {
+  background-color: #ECF3E9;
+}
+
+/* === TÍTULO DEL SEMESTRE === */
+.semestre h3 {
+  margin: -12px -12px 12px -12px;
+  padding: 10px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 10px 10px 0 0;
+  color: inherit;
+  background-color: inherit;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+/* === RAMO (CUADROS) === */
+.ramo {
+  background-color: #fff;
+  border: 2px solid transparent;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* === ESTADOS DE LOS RAMOS === */
+.ramo.bloqueado {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ramo.activo {
+  cursor: pointer;
+}
+
+/* === RAMO APROBADO === */
+.ramo.aprobado {
+  position: relative;
+}
+
+/* Línea tachada en diagonal */
+.ramo.aprobado::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.4);
+  transform: rotate(-45deg);
+  transform-origin: center;
+  pointer-events: none;
+}
+
+/* === RAMOS NORMALES === */
+.ramo.normal {
+  background-color: #0176DE;
+  color: #fff;
+  border-color: #015bb3;
+}
+
+.ramo.aprobado.normal {
+  background-color: #73b4f2;
+  color: #00355c;
+  border-color: #00355c;
+}
+
+/* === INTERNADOS === */
+.ramo.internado {
+  background-color: #16379B;
+  color: #fff;
+  border-color: #0f286b;
+}
+
+.ramo.aprobado.internado {
+  background-color: #6b83c6;
+  color: #0a1639;
+  border-color: #0a1639;
+}
+
+/* === OFG, TEOLÓGICO, ANTROPOLÓGICO === */
+.ramo.ofg,
+.ramo.teologico,
+.ramo.antropologico {
+  background-color: #FECC00;
+  color: #000;
+  border-color: #d2b300;
+}
+
+.ramo.aprobado.ofg,
+.ramo.aprobado.teologico,
+.ramo.aprobado.antropologico {
+  background-color: #ffe270;
+  color: #000;
+  border-color: #bfa200;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1200px) {
+  .linea-tiempo {
+    overflow-x: auto;
+  }
+
+  .semestre {
+    min-width: 220px;
+  }
+}
