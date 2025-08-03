@@ -13,7 +13,7 @@ function guardarAprobados(aprobados) {
 
 function crearSemestres() {
   const contenedor = document.querySelector(".linea-tiempo");
-  for (let i = 1; i <= 14; i++) {
+  for (let i = 1; i <= 12; i++) {
     const div = document.createElement("div");
     div.className = `semestre semestre-${i}`;
 
@@ -28,7 +28,7 @@ function crearSemestres() {
 
 function crearRamo(nombre, datos) {
   const div = document.createElement("div");
-  div.className = "ramo bloqueado";
+  div.className = `ramo bloqueado ${datos.tipo}`;
   div.textContent = nombre;
   div.dataset.nombre = nombre;
   div.dataset.estado = "bloqueado";
@@ -73,7 +73,6 @@ function manejarAprobacion(div) {
   if (yaAprobado) {
     // Desaprobar
     div.classList.remove("aprobado");
-    div.classList.add("activo");
     div.dataset.estado = "activo";
     guardarAprobados(aprobados.filter(r => r !== nombre));
   } else {
@@ -91,6 +90,9 @@ function manejarAprobacion(div) {
   const clon = div.cloneNode(true);
   clon.addEventListener("click", () => manejarAprobacion(clon));
   div.parentNode.replaceChild(clon, div);
+
+  // 🔄 Actualizar avance
+  actualizarResumen();
 }
 
 // ==== CARGAR ESTADO GUARDADO Y DESBLOQUEAR ====
@@ -109,7 +111,55 @@ function cargarEstado() {
       (ramos[nombre].abre || []).forEach(desbloquear);
     }
   });
+
+  actualizarResumen();
 }
+
+// ==== AVANCE CURRICULAR ====
+
+function actualizarResumen() {
+  const total = Object.keys(ramos).length;
+  const aprobados = obtenerAprobados().length;
+  const porcentaje = total > 0 ? Math.round((aprobados / total) * 100) : 0;
+
+  const totalElem = document.getElementById("total-ramos");
+  const aprobElem = document.getElementById("ramos-aprobados");
+  const porceElem = document.getElementById("porcentaje-avance");
+
+  if (totalElem) totalElem.textContent = total;
+  if (aprobElem) aprobElem.textContent = aprobados;
+  if (porceElem) porceElem.textContent = `${porcentaje}%`;
+
+  lanzarConfetiSiCompleto();
+}
+
+// ==== 🎉 LANZAR CONFETI AL COMPLETAR ====
+
+function lanzarConfetiSiCompleto() {
+  const total = Object.keys(ramos).length;
+  const aprobados = obtenerAprobados().length;
+  const yaCelebrado = localStorage.getItem('confetiLanzado');
+
+  if (aprobados === total && !yaCelebrado) {
+    confetti({
+      particleCount: 150,
+      spread: 100,
+      origin: { y: 0.6 },
+    });
+
+    localStorage.setItem('confetiLanzado', 'true');
+  }
+}
+
+// ==== BOTÓN REINICIAR ====
+
+document.getElementById('btnReiniciar')?.addEventListener('click', () => {
+  if (confirm('¿Estás seguro que deseas reiniciar la malla? Se borrará tu progreso.')) {
+    localStorage.removeItem('mallaAprobados');
+    localStorage.removeItem('confetiLanzado');
+    location.reload();
+  }
+});
 
 // ==== INICIALIZAR ====
 
@@ -122,4 +172,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const requisitos = datos.requisitos || [];
     if (requisitos.length === 0) desbloquear(nombre);
   });
+
+  // Tema oscuro
+  if (localStorage.getItem("modoOscuro") === "true") {
+    document.body.classList.add("dark");
+  }
+
+  const toggleBtn = document.getElementById("toggleTheme");
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("modoOscuro", isDark ? "true" : "false");
+    });
+  }
 });
