@@ -38,24 +38,11 @@ h1 {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   min-height: 350px;
   transition: transform 0.3s ease;
+  background-color: #F4F4F4; /* FONDO UNIFORME PARA TODOS LOS SEMESTRES */
 }
 
 .semestre:hover {
   transform: scale(1.01);
-}
-
-/* === FONDOS DE SEMESTRES SEGÚN NÚMERO === */
-.semestre-1, .semestre-2, .semestre-3, .semestre-4 {
-  background-color: #E8EDEB;
-}
-
-.semestre-5, .semestre-6, .semestre-7, .semestre-8,
-.semestre-9, .semestre-10 {
-  background-color: #EEF7FD;
-}
-
-.semestre-11, .semestre-12, .semestre-13, .semestre-14 {
-  background-color: #ECF3E9;
 }
 
 /* === TÍTULO DEL SEMESTRE === */
