@@ -28,7 +28,7 @@ function crearSemestres() {
 
 function crearRamo(nombre, datos) {
   const div = document.createElement("div");
-  div.className = `ramo bloqueado ${datos.tipo}`;
+  div.className = `ramo bloqueado`;
   div.textContent = nombre;
   div.dataset.nombre = nombre;
   div.dataset.estado = "bloqueado";
@@ -91,7 +91,6 @@ function manejarAprobacion(div) {
   clon.addEventListener("click", () => manejarAprobacion(clon));
   div.parentNode.replaceChild(clon, div);
 
-  // 🔄 Actualizar avance
   actualizarResumen();
 }
 
@@ -107,7 +106,6 @@ function cargarEstado() {
       div.classList.add("aprobado");
       div.dataset.estado = "aprobado";
 
-      // Desbloquear lo que abre
       (ramos[nombre].abre || []).forEach(desbloquear);
     }
   });
